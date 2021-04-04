@@ -1,0 +1,5 @@
+*Como uma boa pratica, sempre começamos um projeto utilizando 'npm init' para criar o package.json
+*No package.json conseguimos ver todas as dependencias e versões dos pacotes instalados
+
+*npm i <nome do pacote> => instala o pacote desejado.
+
