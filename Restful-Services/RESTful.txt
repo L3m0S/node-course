@@ -1,0 +1,45 @@
+*REST = Representational State Transfer
+
+*Utilizamos resquests HTTP para realizarmos as açoes que queremos.
+
+*Deixamos o caminho '/api/algo' visivel em nossa url para mostrar que é uma aplicação Rest.
+
+*Tipos de resquests HTTP:
+    -GET => Get data
+    -POST => Create data
+    -PUT => Update data
+    -DELETE => Delete data
+
+*Um exemplo:
+    Para podermos pegar a informação dos clientes de um site por exemplo iremos utilizar o metodo GET.
+
+    EX:
+        Request:
+        GET /api/customers => nos respode com um objeto com a lista de customers.
+
+        *Podemos buscar um especifico utilizando:
+        GET /api/customers/1 => nos retorna o primeiro elemento da lista.
+
+
+*Para podermos modificar um customer iremos utilizar o metodo PUT;
+
+    EX: 
+        Request:
+            PUT /api/customers/1
+                {name: 'Nome modificado'}
+
+
+
+*Para deletar um customer utilizamos o metodo DELETE:
+
+    EX: 
+        Request:
+            DELETE /api/customers/1
+
+
+*Para criar um customer utilizamos o metodo POST:
+
+    EX:
+        Request:
+            POST /api/customers
+                {name: 'Novo customer'}
