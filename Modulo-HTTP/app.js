@@ -17,4 +17,4 @@ const server = http.createServer((req, res) => { //Usando o jeito mais leigo de 
 
 server.listen(3000);//Definindo qual porta nosso servidor ira escutar
 
-console.log('Linstening on port 3000...')
+console.log('Linstening on port 3000...');
