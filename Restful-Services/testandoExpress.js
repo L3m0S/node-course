@@ -17,6 +17,16 @@ app.get('/api/courses', (req, res) => {
     res.send([1, 2, 3]); // retorna esse array ao acessar o http://localhost:3000/api/courses
 })
 
-app.listen(3000, () => { //app.listen serve para escolher qual a porta que o servidor ira ouvir.
-    console.log('Ouvindo na porta 3000....')
-}); //Primeiro paramentro do listen é a porta a ser ouvida e o segundo é uma função callbakc.
+app.get('/api/courses/:id', (req, res) => {//Utilizamos o ':id' para ler o id passado pelo cliente na URL.
+    res.send(req.params.id);//Utilizamos o 'req.params' para acessar o parametro passado, neste caso foi o ':id'.
+})//podemos utilizar na URL as query strings como por exemplo:  url/:id?sortBy=id, para ordenar por ID
+//No caso da query strings utilizamos o 'req.query'
+const port = process.env.PORT || 3000; 
+//Usaremos um variavel de ambiente para guardar a porta que sera utilizada.
+
+app.listen(port, () => { //app.listen serve para escolher qual a porta que o servidor ira ouvir.
+    console.log(`Ouvindo na porta ${port}....`)
+}); //Primeiro paramentro do listen é a porta a ser ouvida e o segundo é uma função callback.
+
+
+
