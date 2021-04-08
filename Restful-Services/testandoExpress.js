@@ -2,6 +2,7 @@
 
 //Carregar o Express
 const express = require('express');
+const Joi = require('joi');
 
 const app = express(); //armazenando o objeto express()
 
@@ -41,7 +42,7 @@ app.get('/api/courses/lista/:id', (req, res) => {
 
 
 //Trabalhando com HTTP POST Requests
-
+//Trabalho de validar os dados do POST estão no arquivo inputValidade.js
 app.post('/api/courses', (req, res) => {//esse Request iremos ler o objeto que estara no body da request e usar as propriedades para criar um novo objeto no array de cursos
     const course = {
         id: courses.length + 1, //Cria o objeto para o novo curso
@@ -49,7 +50,38 @@ app.post('/api/courses', (req, res) => {//esse Request iremos ler o objeto que e
     };
     courses.push(course); // Insere o objeto de curso criado em nosso aray de cursos
     res.send(course); //Retorna o corpo do novo objeto criado para o cliente
-});
+});// EndPoint testado utilizando o POSTMAN, EndPoint apresentou normalidade.
+
+
+
+//Trabalhando com HTTP PUT Request
+
+app.put('/api/courses/:id', (req, res) => {
+
+    const { error } = validadeCourse(req.body);
+
+    if (error) {
+        res.status(400).send(error.details[0].message);//Caso a validação de algum erro, returna o erro para o cliente
+        return
+    };
+
+    const course = {
+        id: course.length + 1,
+        name: req.body.name
+    };
+    courses.push(course);
+    res.send(course);
+})
+
+
+function validadeCourse(course) {
+    const schema = Joi.object().keys({ //Cria um schema de como o corpo do objeto e suas propriedades devem ser passadas.
+        name: Joi.string().min(3).required() // define uma validação que voce quer para a propriedade
+    });
+           
+    return schema.validate(course);
+
+}
 
 
 
