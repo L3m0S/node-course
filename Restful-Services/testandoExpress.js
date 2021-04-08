@@ -57,19 +57,16 @@ app.post('/api/courses', (req, res) => {//esse Request iremos ler o objeto que e
 //Trabalhando com HTTP PUT Request
 
 app.put('/api/courses/:id', (req, res) => {
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(!course)  res.status(404).send("O curso com o id informado não foi encontrado")
 
     const { error } = validadeCourse(req.body);
-
     if (error) {
         res.status(400).send(error.details[0].message);//Caso a validação de algum erro, returna o erro para o cliente
         return
     };
 
-    const course = {
-        id: course.length + 1,
-        name: req.body.name
-    };
-    courses.push(course);
+    course.name = req.body.name;
     res.send(course);
 })
 
