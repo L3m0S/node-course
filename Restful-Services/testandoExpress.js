@@ -21,7 +21,7 @@ app.get('/api/courses', (req, res) => {
 })
 
 app.get('/api/courses/:id', (req, res) => {//Utilizamos o ':id' para ler o id passado pelo cliente na URL.
-    res.send(req.params.id);//Utilizamos o 'req.params' para acessar o parametro passado, neste caso foi o ':id'.
+    res.send(courses[req.params.id - 1]);//Utilizamos o 'req.params' para acessar o parametro passado, neste caso foi o ':id'.
 })//podemos utilizar na URL as query strings como por exemplo:  url/:id?sortBy=id, para ordenar por ID
 //No caso da query strings utilizamos o 'req.query'
 
@@ -44,6 +44,10 @@ app.get('/api/courses/lista/:id', (req, res) => {
 //Trabalhando com HTTP POST Requests
 //Trabalho de validar os dados do POST estão no arquivo inputValidade.js
 app.post('/api/courses', (req, res) => {//esse Request iremos ler o objeto que estara no body da request e usar as propriedades para criar um novo objeto no array de cursos
+    const { error } = validadeCourse(req.body);
+    if (error) {
+        return res.status(400).send(error.details[0].message);
+    }
     const course = {
         id: courses.length + 1, //Cria o objeto para o novo curso
         name: req.body.name
@@ -58,17 +62,34 @@ app.post('/api/courses', (req, res) => {//esse Request iremos ler o objeto que e
 
 app.put('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if(!course)  res.status(404).send("O curso com o id informado não foi encontrado")
-
+    if(!course)  {
+        return res.status(404).send("O curso com o id informado não foi encontrado")
+    }
     const { error } = validadeCourse(req.body);
     if (error) {
-        res.status(400).send(error.details[0].message);//Caso a validação de algum erro, returna o erro para o cliente
-        return
+        return res.status(400).send(error.details[0].message);//Caso a validação de algum erro, returna o erro para o cliente
     };
 
     course.name = req.body.name;
     res.send(course);
-})
+});
+
+
+//Trabalhando com HTTP DELETE Request
+app.delete('/api/courses/:id', (req, res) => {
+    //Procura o Curso
+    //Se não existir, retorna 404
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if(!course) {
+       return res.status(404).send("O curso com o id informado não foi encontrado")
+    } 
+
+    //Se encontrar, deleta o curso
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    res.send(course);
+});
 
 
 function validadeCourse(course) {
