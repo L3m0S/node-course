@@ -22,6 +22,15 @@ app.get('/generos', (req, res) => {
 });
 
 
+//EndPoint para visualizar um genero especifico
+app.get('/generos/:id', (req, res) => {
+    const genero = generos.find(c => c.id === parseInt(req.params.id));
+    if (!genero) return res.status(404).send('O genero com o id especificado não foi encontrado!');
+    res.send(genero);
+});
+
+
+
 //EndPoint para criar um novo genero
 app.post('/generos/create',(req, res) => {
     const { error } = validarGenero(res.body);
