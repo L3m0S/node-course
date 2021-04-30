@@ -1,8 +1,12 @@
+const config = require('config');//Nos ajuda a definir configuração para diferentes Env
 const express = require('express');
+const startupDebugger = require('debug')('app:startup');
+const dbDebugger = require('debug')('app:db');
 const Joi = require('joi');
 const logger = require('./logger');
 const helmet = require('helmet');
 const morgan = require('morgan');
+
 
 const app = express(); 
 
@@ -10,8 +14,38 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true })); //Recebe URL payloads e converte em um objeto Json.
 app.use(express.static('public')); //Middleware para retornar conteudos estaticos.
 app.use(helmet()); // Best practice para ajudar na segurança da aplicação
-app.use(morgan('tiny'))
 
+//Debugging
+
+dbDebugger('Conected to database...');
+startupDebugger('Startup debugger....')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+console.log(`NODE_ENV: ${process.env.NODE_ENV}`);//A variave process.env.NODE_ENV serve para definirmos o ambiente, testes, desenvolvimento etc.
+console.log(`app: ${app.get('env')}`) // utilizados o app.get para acessar o env que esta setado.
+//Utilizamos o SET NODE_ENV no terminal para mudar o valor da variavel de ambiente.
+
+//Config
+console.log("Aplication name: " + config.get('name'));
+console.log('Mail server: ' + config.get('mail.host'))
+
+
+if (app.get('env') === 'development') {
+    app.use(morgan('tiny'));
+    console.log('Morgan enabled....')
+}
 app.use(logger);//Função middleware adiconada na pipeline
 
 app.get('/', (req, res) => { 
