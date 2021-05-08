@@ -20,19 +20,6 @@ app.use(helmet()); // Best practice para ajudar na segurança da aplicação
 dbDebugger('Conected to database...');
 startupDebugger('Startup debugger....')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 console.log(`NODE_ENV: ${process.env.NODE_ENV}`);//A variave process.env.NODE_ENV serve para definirmos o ambiente, testes, desenvolvimento etc.
 console.log(`app: ${app.get('env')}`) // utilizados o app.get para acessar o env que esta setado.
 //Utilizamos o SET NODE_ENV no terminal para mudar o valor da variavel de ambiente.
@@ -135,9 +122,6 @@ function validadeCourse(course) {
     return schema.validate(course);
 
 }
-
-
-
 
 
 const port = process.env.PORT || 3000; 
